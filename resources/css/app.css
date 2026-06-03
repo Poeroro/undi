@@ -1,0 +1,244 @@
+@import 'tailwindcss';
+
+@source '../../app/**/*.php';
+@source '../../resources/**/*.blade.php';
+@source '../../routes/**/*.php';
+
+:root {
+    color-scheme: light;
+    --undi-ink: #24211e;
+    --undi-muted: #706a63;
+    --undi-line: #e9e1d8;
+    --undi-gold: #a4785b;
+    --undi-sage: #7b8c79;
+    --undi-rose: #caa1a6;
+    --undi-cream: #faf7f2;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--undi-cream);
+    color: var(--undi-ink);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.premium-surface {
+    border: 1px solid color-mix(in srgb, var(--undi-line), white 18%);
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 20px 60px rgba(71, 55, 39, 0.08);
+    backdrop-filter: blur(16px);
+}
+
+.form-input {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid #ded3c8;
+    background: rgba(255, 255, 255, 0.88);
+    padding: 0.8rem 0.95rem;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.form-input:focus {
+    border-color: var(--undi-gold);
+    box-shadow: 0 0 0 4px rgba(164, 120, 91, 0.14);
+    background: white;
+}
+
+.invitation-cover__panel {
+    z-index: 3;
+    transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 280ms ease;
+}
+
+#invitation-cover {
+    transition: opacity 700ms ease 2100ms, visibility 0ms linear 2800ms;
+}
+
+#invitation-cover.is-opening {
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
+#invitation-cover.is-opening .invitation-cover__panel {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+}
+
+.invitation-envelope-stage {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(18px) scale(0.9);
+    transition: opacity 320ms ease 320ms, transform 680ms cubic-bezier(0.22, 1, 0.36, 1) 320ms;
+}
+
+#invitation-cover.is-opening .invitation-envelope-stage {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.invitation-envelope {
+    position: relative;
+    width: min(16.5rem, 76vw);
+    height: 10.5rem;
+    perspective: 900px;
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 26px 38px rgba(0, 0, 0, 0.28));
+    transform: translateY(0) scale(1);
+}
+
+#invitation-cover.is-opening .invitation-envelope {
+    animation: invitation-envelope-lift 720ms cubic-bezier(0.22, 1, 0.36, 1) 1600ms forwards;
+}
+
+.invitation-envelope__back,
+.invitation-envelope__front,
+.invitation-envelope__flap,
+.invitation-envelope__card,
+.invitation-envelope__seal {
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.invitation-envelope__back {
+    inset: 2.5rem 0 0;
+    border-radius: 0.85rem;
+    background: linear-gradient(145deg, #f9ead8, #e6c6aa);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.42);
+}
+
+.invitation-envelope__front {
+    bottom: 0;
+    height: 7.7rem;
+    border-radius: 0 0 0.85rem 0.85rem;
+    background:
+        linear-gradient(32deg, transparent 49.4%, rgba(171, 117, 83, 0.44) 50%, transparent 50.8%),
+        linear-gradient(-32deg, transparent 49.4%, rgba(171, 117, 83, 0.44) 50%, transparent 50.8%),
+        linear-gradient(145deg, #f8ddbd, #d49b72);
+    clip-path: polygon(0 0, 50% 54%, 100% 0, 100% 100%, 0 100%);
+    z-index: 4;
+}
+
+.invitation-envelope__flap {
+    top: 2.5rem;
+    height: 5.9rem;
+    transform-origin: top center;
+    transform: rotateX(0deg);
+    border-radius: 0.85rem 0.85rem 0 0;
+    background: linear-gradient(160deg, #ffe7ca, #d9a079);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    z-index: 6;
+    transition: transform 880ms cubic-bezier(0.2, 0.74, 0.18, 1) 760ms, z-index 0ms linear 1220ms;
+}
+
+.invitation-envelope__card {
+    top: 3.1rem;
+    z-index: 3;
+    margin: 0 auto;
+    width: 78%;
+    min-height: 6.8rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(164, 120, 91, 0.18);
+    background: linear-gradient(180deg, #fffaf4, #f4e4d3);
+    color: #3a2c25;
+    display: grid;
+    place-items: center;
+    gap: 0.2rem;
+    padding: 1.2rem 1rem;
+    text-align: center;
+    transform: translateY(0) scale(0.96);
+    transition: transform 940ms cubic-bezier(0.22, 1, 0.36, 1) 1180ms, opacity 400ms ease;
+}
+
+.invitation-envelope__card span,
+.invitation-envelope__card strong {
+    display: block;
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.1;
+}
+
+.invitation-envelope__card span {
+    font-size: 1.15rem;
+}
+
+.invitation-envelope__card strong {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #8b5d44;
+}
+
+.invitation-envelope__seal {
+    top: 6.6rem;
+    z-index: 7;
+    margin: 0 auto;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    background: radial-gradient(circle at 34% 28%, #ffd6c1, #a95b4d 62%, #743e36);
+    box-shadow: 0 8px 18px rgba(75, 32, 26, 0.28);
+    transition: opacity 260ms ease 620ms, transform 520ms cubic-bezier(0.22, 1, 0.36, 1) 620ms;
+}
+
+#invitation-cover.is-opening .invitation-envelope__flap {
+    z-index: 2;
+    transform: rotateX(-178deg);
+}
+
+#invitation-cover.is-opening .invitation-envelope__card {
+    transform: translateY(-5.9rem) scale(1);
+}
+
+#invitation-cover.is-opening .invitation-envelope__seal {
+    opacity: 0;
+    transform: scale(0.45);
+}
+
+@keyframes invitation-envelope-lift {
+    to {
+        transform: translateY(-18px) scale(1.04);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .invitation-cover__panel,
+    #invitation-cover,
+    .invitation-envelope-stage,
+    .invitation-envelope__flap,
+    .invitation-envelope__card,
+    .invitation-envelope__seal {
+        transition-duration: 1ms;
+        transition-delay: 0ms;
+    }
+
+    #invitation-cover.is-opening .invitation-envelope {
+        animation-duration: 1ms;
+        animation-delay: 0ms;
+    }
+}
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}

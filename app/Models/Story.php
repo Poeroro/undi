@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Story extends Model
+{
+    protected $fillable = [
+        'invitation_id',
+        'title',
+        'story_date',
+        'description',
+        'image_path',
+        'sort_order',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'story_date' => 'date',
+        ];
+    }
+
+    public function invitation(): BelongsTo
+    {
+        return $this->belongsTo(Invitation::class);
+    }
+}
